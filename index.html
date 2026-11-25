@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BellaFlores</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: sticky header / hero / trust / channel-choice / products / about / cta / footer + cart drawer */
+:root {
+  --bg:      #FDFAF5;
+  --surf:    #FFFFFF;
+  --surf2:   #F3EDE3;
+  --brd:     #E2D3C2;
+  --fg:      #1A110C;
+  --fg2:     #6A5444;
+  --fg3:     #9C8878;
+
+  --rose:    #B34050;
+  --rose-h:  #993040;
+  --rose-s:  #F9EAEC;
+
+  --hero:    #1C3812;
+  --leaf:    #306020;
+  --leaf-s:  #E4EDE0;
+
+  --wa:      #25D366;
+  --wa-bg:   #E8FBF0;
+  --wa-fg:   #0A2A14;
+
+  --gold:    #BF9020;
+
+  --ff-d: 'Cormorant Garamond', Georgia, serif;
+  --ff-b: 'Jost', system-ui, sans-serif;
+
+  --r:  14px;
+  --rs:  8px;
+  --sh:  0 2px 12px rgba(26,17,12,.08);
+  --shl: 0 10px 40px rgba(26,17,12,.14);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:      #0B1008;
+    --surf:    #141D10;
+    --surf2:   #1B2616;
+    --brd:     #283820;
+    --fg:      #EDE8E0;
+    --fg2:     #9CAA94;
+    --fg3:     #6A7860;
+    --rose:    #CF6878;
+    --rose-h:  #DC8090;
+    --rose-s:  #261318;
+    --hero:    #0D1A08;
+    --leaf:    #78A858;
+    --leaf-s:  #182218;
+    --wa:      #3DDD7E;
+    --wa-bg:   #0D2018;
+    --wa-fg:   #C0EED0;
+    --gold:    #D4A840;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:      #0B1008;
+  --surf:    #141D10;
+  --surf2:   #1B2616;
+  --brd:     #283820;
+  --fg:      #EDE8E0;
+  --fg2:     #9CAA94;
+  --fg3:     #6A7860;
+  --rose:    #CF6878;
+  --rose-h:  #DC8090;
+  --rose-s:  #261318;
+  --hero:    #0D1A08;
+  --leaf:    #78A858;
+  --leaf-s:  #182218;
+  --wa:      #3DDD7E;
+  --wa-bg:   #0D2018;
+  --wa-fg:   #C0EED0;
+  --gold:    #D4A840;
+  color-scheme: dark;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;margin:0;padding:0;}
+h1,h2,h3,h4,p{margin:0;}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ff-b);
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: #1C3812;
+  z-index: 300;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--hero);
+  color: #EDE8E0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 62px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+.logo {
+  font-family: var(--ff-d);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #EDE8E0;
+  flex: 1;
+  line-height: 1;
+}
+.logo-em { color: #F4B4BE; font-style: italic; }
+
+.nav { display: flex; gap: 2px; }
+.nav a {
+  padding: 7px 15px;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(237,232,224,0.72);
+  transition: color .2s, background .2s;
+}
+.nav a:hover { color: #EDE8E0; background: rgba(255,255,255,0.1); }
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 50px;
+  background: var(--rose);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background .2s, transform .1s;
+  flex-shrink: 0;
+}
+.cart-btn:hover { background: var(--rose-h); }
+.cart-btn:active { transform: scale(.97); }
+
+.cart-badge {
+  background: white;
+  color: var(--rose);
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.cart-badge[hidden] { display: none; }
+
+@media (max-width: 680px) {
+  .nav { display: none; }
+  .cart-btn span:first-of-type { display: none; }
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--hero);
+  color: #EDE8E0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding-block: 80px;
+}
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(244,180,190,.85);
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-family: var(--ff-d);
+  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -.02em;
+  margin-bottom: 22px;
+  text-wrap: balance;
+}
+.hero h1 em { font-style: italic; color: #F4B4BE; }
+
+.hero-sub {
+  font-size: 1rem;
+  color: rgba(237,232,224,.68);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 400px;
+}
+
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.hero-deco {
+  width: 320px;
+  height: 320px;
+  opacity: .08;
+  flex-shrink: 0;
+}
+
+@media (max-width: 800px) {
+  .hero-inner { grid-template-columns: 1fr; padding-block: 60px 50px; }
+  .hero-deco { display: none; }
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-family: var(--ff-b);
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  transition: all .2s;
+  text-decoration: none;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--rose); color: #fff; }
+.btn-primary:hover { background: var(--rose-h); }
+.btn-wa { background: var(--wa); color: var(--wa-fg); }
+.btn-wa:hover { filter: brightness(1.08); }
+.btn-ghost { background: rgba(255,255,255,.1); color: rgba(237,232,224,.85); }
+.btn-ghost:hover { background: rgba(255,255,255,.18); color: #EDE8E0; }
+.btn-outline { background: transparent; color: var(--fg); border: 1.5px solid var(--brd); }
+.btn-outline:hover { border-color: var(--fg2); background: var(--surf2); }
+.btn-block { width: 100%; justify-content: center; }
+
+/* ─── TRUST BAR ─── */
+.trust-bar {
+  background: var(--surf2);
+  border-bottom: 1px solid var(--brd);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.trust-bar::-webkit-scrollbar { display: none; }
+
+.trust-items {
+  display: flex;
+  min-width: max-content;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--fg2);
+  border-right: 1px solid var(--brd);
+  white-space: nowrap;
+}
+.trust-item:last-child { border-right: none; }
+
+/* ─── CHANNEL CHOICE ─── */
+.channel-sec {
+  background: var(--surf);
+  border-bottom: 1px solid var(--brd);
+  padding: 24px 0;
+}
+
+.channel-wrap {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.channel-card {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--r);
+  border: 1.5px solid var(--brd);
+  background: var(--surf);
+  min-width: 0;
+}
+.channel-card.featured {
+  border-color: var(--rose);
+  background: var(--rose-s);
+}
+
+.ch-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ch-icon.rose { background: var(--rose); }
+.ch-icon.wa { background: var(--wa); }
+
+.ch-title { font-weight: 600; font-size: .9375rem; margin-bottom: 3px; }
+.ch-desc { font-size: .8rem; color: var(--fg2); line-height: 1.45; }
+
+.ch-pill {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.pill-rose { background: var(--rose); color: #fff; }
+.pill-wa { background: var(--wa); color: var(--wa-fg); }
+
+@media (max-width: 600px) {
+  .channel-wrap { flex-direction: column; }
+}
+
+/* ─── SECTION HEADERS ─── */
+.sec-head { text-align: center; margin-bottom: 36px; }
+.sec-eyebrow {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 10px;
+}
+.sec-title {
+  font-family: var(--ff-d);
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  text-wrap: balance;
+}
+.sec-sub { font-size: .9375rem; color: var(--fg2); max-width: 440px; margin: 0 auto; }
+
+/* ─── PRODUCTS ─── */
+.products-sec { padding: 68px 0; }
+
+.cat-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 4px 0;
+}
+
+.cat-btn {
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--fg2);
+  background: var(--surf);
+  border: 1.5px solid var(--brd);
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .01em;
+}
+.cat-btn:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-s); }
+.cat-btn.active { background: var(--rose); color: #fff; border-color: var(--rose); }
+
+/* Botão especial: Montar Flores */
+.cat-btn.personalizado {
+  border-color: var(--wa);
+  color: var(--leaf);
+  background: var(--surf);
+}
+.cat-btn.personalizado:hover { background: var(--leaf-s); border-color: var(--leaf); color: var(--leaf); }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.p-card {
+  background: var(--surf);
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--brd);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow .2s, transform .2s;
+}
+.p-card:hover { box-shadow: var(--shl); transform: translateY(-3px); }
+
+.p-img {
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.25rem;
+  position: relative;
+  overflow: hidden;
+}
+.p-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s;
+}
+.p-card:hover .p-img img { transform: scale(1.04); }
+
+.p-body { padding: 15px; display: flex; flex-direction: column; flex: 1; gap: 6px; }
+
+.p-name { font-weight: 600; font-size: .9375rem; line-height: 1.3; }
+.p-desc { font-size: .8rem; color: var(--fg2); line-height: 1.45; flex: 1; }
+
+.p-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--brd);
+  margin-top: 4px;
+}
+
+.p-price {
+  font-family: var(--ff-d);
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+
+.add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--rose);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, transform .1s;
+  line-height: 1;
+}
+.add-btn:hover { background: var(--rose-h); }
+.add-btn:active { transform: scale(.88); }
+.p-card.in-cart .add-btn {
+  background: var(--leaf);
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+/* ─── ABOUT ─── */
+.about-sec {
+  background: var(--surf2);
+  border-top: 1px solid var(--brd);
+  border-bottom: 1px solid var(--brd);
+  padding: 68px 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-deco { max-width: 220px; margin: 0 auto; }
+}
+
+.about-deco {
+  aspect-ratio: 1;
+  border-radius: 48% 52% 60% 40% / 50% 44% 56% 50%;
+  background: linear-gradient(135deg, var(--leaf-s) 0%, var(--rose-s) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.about-text h2 {
+  font-family: var(--ff-d);
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.18;
+  text-wrap: balance;
+}
+.about-text p { color: var(--fg2); margin-bottom: 12px; line-height: 1.72; }
+
+.stats {
+  display: flex;
+  gap: 28px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.stat-num {
+  font-family: var(--ff-d);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--rose);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.stat-lbl { font-size: .8rem; color: var(--fg3); margin-top: 3px; }
+
+/* ─── CTA BAND ─── */
+.cta-sec {
+  background: var(--hero);
+  color: #EDE8E0;
+  padding: 68px 0;
+  text-align: center;
+}
+.cta-sec h2 {
+  font-family: var(--ff-d);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+  margin-bottom: 14px;
+  text-wrap: balance;
+}
+.cta-sec p { color: rgba(237,232,224,.65); margin-bottom: 32px; font-size: 1rem; }
+.cta-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── FOOTER ─── */
+.site-footer {
+  background: #0E1A09;
+  color: rgba(237,232,224,.6);
+  padding: 52px 0 28px;
+  padding-bottom: max(28px, env(safe-area-inset-bottom, 0px));
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+@media (max-width: 680px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.footer-brand .logo { font-size: 1.5rem; display: block; margin-bottom: 10px; }
+.footer-brand p { font-size: .875rem; line-height: 1.65; max-width: 280px; }
+
+.footer-col h4 {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(237,232,224,.38);
+  margin-bottom: 14px;
+}
+.footer-col li { margin-bottom: 8px; }
+.footer-col li a { font-size: .875rem; transition: color .2s; }
+.footer-col li a:hover { color: #EDE8E0; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(237,232,224,.08);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: .8rem;
+}
+
+.wa-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  background: rgba(37,211,102,.12);
+  color: var(--wa);
+  font-weight: 600;
+  font-size: .875rem;
+  margin-top: 8px;
+}
+
+/* ─── CART DRAWER ─── */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(430px, 100vw);
+  background: var(--surf);
+  z-index: 160;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  box-shadow: var(--shl);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-head {
+  display: flex;
+  align-items: center;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--brd);
+  gap: 12px;
+}
+.cart-head h3 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 600; flex: 1; }
+
+.close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surf2);
+  color: var(--fg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background .2s;
+  line-height: 1;
+}
+.close-btn:hover { background: var(--brd); }
+
+#cartBody {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.cart-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 60px 24px;
+  text-align: center;
+  height: 100%;
+}
+.cart-empty-state .icon { font-size: 3rem; opacity: .35; }
+.cart-empty-state .title { font-weight: 600; font-size: .9375rem; }
+.cart-empty-state .hint { font-size: .8125rem; color: var(--fg3); }
+
+.cart-items-list { padding: 14px 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.ci {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--rs);
+  background: var(--surf2);
+  border: 1px solid var(--brd);
+}
+
+.ci-img {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--rs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.ci-info { flex: 1; min-width: 0; }
+.ci-name { font-weight: 600; font-size: .875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ci-price { font-size: .8rem; color: var(--fg2); margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+.qty-row { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.qty-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--surf);
+  border: 1.5px solid var(--brd);
+  color: var(--fg);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  line-height: 1;
+}
+.qty-btn:hover { border-color: var(--rose); color: var(--rose); }
+.qty-n { font-size: .875rem; font-weight: 600; min-width: 20px; text-align: center; font-variant-numeric: tabular-nums; }
+
+.cart-foot {
+  padding: 18px 20px;
+  border-top: 1px solid var(--brd);
+  padding-bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.total-row { display: flex; justify-content: space-between; align-items: baseline; }
+.total-label { font-size: .9375rem; color: var(--fg2); }
+.total-value { font-family: var(--ff-d); font-size: 1.6rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.checkout-hint { font-size: .75rem; color: var(--fg3); text-align: center; line-height: 1.4; }
+
+/* ─── FLOATING WA ─── */
+.fab-wa {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  right: max(24px, env(safe-area-inset-right, 0px));
+  z-index: 90;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--wa);
+  color: var(--wa-fg);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  transition: transform .2s, box-shadow .2s;
+}
+.fab-wa:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,.55); }
+
+/* ─── TOAST ─── */
+#toast {
+  position: fixed;
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--fg);
+  color: var(--surf);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: .875rem;
+  font-weight: 500;
+  z-index: 180;
+  opacity: 0;
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *,.cart-drawer,.cart-overlay,#toast { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-row">
+    <span class="logo">Bella<em class="logo-em">Flores</em></span>
+    <nav class="nav">
+      <a href="#produtos">Produtos</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="cart-btn" id="cartToggle" aria-label="Abrir sacola">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span>Sacola</span>
+      <span class="cart-badge" id="cartBadge" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner wrap">
+    <div>
+      <p class="hero-eyebrow">Floricultura Bella · Desde 2019</p>
+      <h1>Flores que falam<br><em>por você</em></h1>
+      <p class="hero-sub">Buquês, arranjos e plantas para todos os momentos. Monte sua sacola agora e receba hoje.</p>
+      <div class="hero-actions">
+        <a href="#produtos" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Montar minha sacola
+        </a>
+        <a href="#wa-link" class="btn btn-ghost js-wa-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+    <!-- Decorative botanical SVG -->
+    <svg class="hero-deco" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="160" cy="160" r="150" stroke="white" stroke-width="1"/>
+      <circle cx="160" cy="160" r="100" stroke="white" stroke-width="0.75"/>
+      <circle cx="160" cy="160" r="50" stroke="white" stroke-width="0.75"/>
+      <ellipse cx="160" cy="85" rx="28" ry="70" stroke="white" stroke-width="1.2"/>
+      <ellipse cx="160" cy="85" rx="28" ry="70" stroke="white" stroke-width="1.2" transform="rotate(45 160 160)"/>
+      <ellipse cx="160" cy="85" rx="28" ry="70" stroke="white" stroke-width="1.2" transform="rotate(90 160 160)"/>
+      <ellipse cx="160" cy="85" rx="28" ry="70" stroke="white" stroke-width="1.2" transform="rotate(135 160 160)"/>
+      <ellipse cx="160" cy="105" rx="18" ry="50" stroke="white" stroke-width="1" transform="rotate(22.5 160 160)"/>
+      <ellipse cx="160" cy="105" rx="18" ry="50" stroke="white" stroke-width="1" transform="rotate(67.5 160 160)"/>
+      <ellipse cx="160" cy="105" rx="18" ry="50" stroke="white" stroke-width="1" transform="rotate(112.5 160 160)"/>
+      <ellipse cx="160" cy="105" rx="18" ry="50" stroke="white" stroke-width="1" transform="rotate(157.5 160 160)"/>
+      <circle cx="160" cy="160" r="18" stroke="white" stroke-width="1.5"/>
+      <circle cx="160" cy="160" r="6" fill="white" opacity=".5"/>
+      <line x1="160" y1="178" x2="160" y2="308" stroke="white" stroke-width="1.5"/>
+      <ellipse cx="140" cy="250" rx="16" ry="8" stroke="white" stroke-width="1" transform="rotate(-25 140 250)"/>
+      <ellipse cx="180" cy="275" rx="16" ry="8" stroke="white" stroke-width="1" transform="rotate(25 180 275)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar" role="list" aria-label="Diferenciais">
+  <div class="trust-items">
+    <div class="trust-item" role="listitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Entrega no mesmo dia</div>
+    <div class="trust-item" role="listitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Pagamento seguro</div>
+    <div class="trust-item" role="listitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2"/><path d="M12 6v6l4 2"/></svg> Flores frescas diárias</div>
+    <div class="trust-item" role="listitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Mais de 500 clientes felizes</div>
+    <div class="trust-item" role="listitem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.6a16 16 0 0 0 5.49 5.49l.95-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17.18"/></svg> Atendimento imediato</div>
+  </div>
+</div>
+
+<!-- CHANNEL CHOICE -->
+<section class="channel-sec">
+  <div class="wrap">
+    <div class="channel-wrap">
+      <div class="channel-card featured">
+        <div class="ch-icon rose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div>
+          <div class="ch-title">Peça pelo site</div>
+          <div class="ch-desc">Monte sua sacola, escolha as flores e finalize o pedido em segundos. Mais prático e ágil.</div>
+          <span class="ch-pill pill-rose">Recomendado ✓</span>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="ch-icon wa">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#0a2a14" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </div>
+        <div>
+          <div class="ch-title">Falar no WhatsApp</div>
+          <div class="ch-desc">Prefere conversar diretamente? Respondemos imediatamente no WhatsApp.</div>
+          <span class="ch-pill pill-wa">Também disponível</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="produtos" class="products-sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Catálogo</p>
+      <h2 class="sec-title">Escolha suas flores</h2>
+      <p class="sec-sub">Adicione à sacola e finalize o pedido — seu pedido chega formatado no WhatsApp.</p>
+    </div>
+    <div class="cat-filter" role="group" aria-label="Filtrar por categoria">
+      <button class="cat-btn active" data-cat="todos">Tudo</button>
+      <button class="cat-btn" data-cat="rosas">🌹 Rosas</button>
+      <button class="cat-btn" data-cat="buques">💐 Buquês</button>
+      <button class="cat-btn" data-cat="arranjos">🌿 Arranjos</button>
+      <button class="cat-btn" data-cat="plantas">🪴 Plantas</button>
+      <button class="cat-btn" data-cat="especiais">⭐ Especiais</button>
+      <button class="cat-btn personalizado" data-cat="personalizado">✨ Montar Flores</button>
+    </div>
+    <div class="product-grid" id="productGrid" role="list"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="sobre" class="about-sec">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-deco" aria-hidden="true">🌸</div>
+      <div class="about-text">
+        <h2>Amor e cuidado em cada entrega</h2>
+        <p>Somos uma floricultura com alma. Desde 2019, transformamos sentimentos em arranjos únicos, feitos com flores frescas selecionadas todos os dias.</p>
+        <p>Nossa missão é simples: que cada entrega chegue com o cuidado de quem enviou e a beleza que quem recebe merece.</p>
+        <p>Flores frescas chegam diariamente. Buquês montados com carinho, do jeito que você imaginou.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-sec">
+  <div class="wrap">
+    <h2>Precisa de algo especial?</h2>
+    <p>Arranjos personalizados, flores para eventos e decoração — estamos aqui para ajudar.</p>
+    <div class="cta-actions">
+      <a href="#produtos" class="btn btn-primary">Ver produtos</a>
+      <a href="#wa-link" class="btn btn-wa js-wa-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        Pedir personalizado
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato" class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">Bella<em class="logo-em">Flores</em></span>
+        <p>Flores frescas e arranjos para todos os momentos. Atendimento com carinho e agilidade.</p>
+        <a href="#wa-link" class="wa-number js-wa-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          <span id="waNumberDisplay">(11) 99999-9999</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>Horários</h4>
+        <ul>
+          <li><a>Seg – Sex: 8h às 19h</a></li>
+          <li><a>Sábado: 8h às 17h</a></li>
+          <li><a>Domingo: 9h às 14h</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#sobre">Sobre nós</a></li>
+          <li><a href="#wa-link" class="js-wa-link">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 BellaFlores. Todos os direitos reservados.</span>
+      <span>Feito com 🌸 para você</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Sacola">
+  <div class="cart-head">
+    <h3>Minha Sacola</h3>
+    <button class="close-btn" id="cartClose" aria-label="Fechar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="cartBody"></div>
+  <div class="cart-foot" id="cartFoot" hidden>
+    <div class="total-row">
+      <span class="total-label">Total do pedido</span>
+      <span class="total-value" id="cartTotal">R$ 0,00</span>
+    </div>
+    <button class="btn btn-wa btn-block" id="checkoutBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      Finalizar no WhatsApp
+    </button>
+    <p class="checkout-hint">Seu pedido será enviado formatado para o WhatsApp ✓</p>
+  </div>
+</aside>
+
+<!-- FAB WhatsApp -->
+<a href="#wa-link" class="fab-wa js-wa-link" aria-label="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// CONFIG — altere aqui o número do WhatsApp
+// Formato: código do país + DDD + número (sem espaços ou traços)
+// Exemplo: 5511987654321
+const WA_NUMBER = '5511999999999';
+// ═══════════════════════════════════════════
+
+const products = [
+  { id:1,  name:'Buquê de Lírios Rosa',  cat:'buques',   price:89.90,  img:'imgs/buque-lirios.jpg',         desc:'Lírios rosa com bocas-de-leão e folhagens nobres' },
+  { id:2,  name:'Buquê de Girassóis',    cat:'buques',   price:79.90,  img:'imgs/buque-girassol.jpg',        desc:'Girassóis frescos com bebê-respiração e papel jornal' },
+  { id:3,  name:'Buquê Colorido',        cat:'buques',   price:95.00,  img:'imgs/buque-colorido.jpg',        desc:'Rosas pink com bocas-de-leão amarelas, fundo especial' },
+  { id:4,  name:'Buquê Elegante',        cat:'buques',   price:120.00, img:'imgs/buque-elegante.jpg',        desc:'Embalagem preta exclusiva com bebê-respiração e folhagens' },
+  { id:5,  name:'Rosas Brancas',          cat:'rosas',    price:75.00,  img:'imgs/rosas-brancas.jpg',         desc:'Dúzia de rosas brancas selecionadas, perfeitas para presentear' },
+  { id:6,  name:'Buquê Alegre',          cat:'buques',   price:85.00,  img:'imgs/buque-misto.jpg',           desc:'Rosas pink com bocas-de-leão amarelas e folhagens variadas' },
+  { id:7,  name:'Arranjo de Girassóis',  cat:'arranjos', price:110.00, img:'imgs/arranjo-girassol.jpg',      desc:'Girassóis com bebê-respiração em vaso branco elegante' },
+  { id:8,  name:'Buquê de Lírios Grande',cat:'arranjos', price:149.90, img:'imgs/buque-lirios-grande.jpg',   desc:'Buquê luxuoso de lírios rosa para ocasiões especiais' },
+  { id:9,  name:'Orquídea Branca',       cat:'plantas',  price:95.00,  emoji:'🤍', bg:['#2A382A','#4A6848'], desc:'Orquídea Phalaenopsis em vaso elegante' },
+  { id:10, name:'Kit Suculentas',        cat:'plantas',  price:45.00,  emoji:'🪴', bg:['#2A4A18','#4A7838'], desc:'Kit com 3 suculentas sortidas' },
+  { id:11, name:'Coroa Fúnebre',         cat:'especiais',price:280.00, emoji:'🕊️', bg:['#2A2A38','#4A4A68'], desc:'Coroa com flores brancas tradicionais' },
+  { id:12, name:'Flores do Dia',         cat:'especiais',price:55.90,  emoji:'🌼', bg:['#5A4818','#8A7838'], desc:'Surpreenda com as flores frescas do dia' },
+];
+
+let cart = {}; // { id: qty }
+
+// ── Utils ──
+const $ = id => document.getElementById(id);
+const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+const getCount = () => Object.values(cart).reduce((a,b) => a+b, 0);
+const getTotal = () => products.reduce((s,p) => s + (cart[p.id]||0)*p.price, 0);
+
+// ── Badge ──
+function updateBadge() {
+  const n = getCount();
+  const badge = $('cartBadge');
+  badge.textContent = n;
+  badge.hidden = n === 0;
+}
+
+// ── Render cart body ──
+function renderCart() {
+  const count = getCount();
+  const body = $('cartBody');
+  const foot = $('cartFoot');
+
+  if (count === 0) {
+    body.innerHTML = `<div class="cart-empty-state">
+      <div class="icon">🛒</div>
+      <p class="title">Sacola vazia</p>
+      <p class="hint">Adicione produtos para continuar</p>
+    </div>`;
+    foot.hidden = true;
+    return;
+  }
+
+  const rows = products.filter(p => cart[p.id] > 0).map(p => `
+    <div class="ci">
+      <div class="ci-img" ${p.img?'':`style="background:linear-gradient(135deg,${p.bg[0]},${p.bg[1]})"`}>${p.img?`<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`:p.emoji}</div>
+      <div class="ci-info">
+        <div class="ci-name">${p.name}</div>
+        <div class="ci-price">${brl(p.price)} cada · ${brl(cart[p.id]*p.price)}</div>
+      </div>
+      <div class="qty-row">
+        <button class="qty-btn" data-action="dec" data-id="${p.id}" aria-label="Remover um">−</button>
+        <span class="qty-n">${cart[p.id]}</span>
+        <button class="qty-btn" data-action="inc" data-id="${p.id}" aria-label="Adicionar um">+</button>
+      </div>
+    </div>`).join('');
+
+  body.innerHTML = `<div class="cart-items-list">${rows}</div>`;
+  $('cartTotal').textContent = brl(getTotal());
+  foot.hidden = false;
+}
+
+// ── Update a single card button without full re-render ──
+function updateCard(id) {
+  const card = document.querySelector(`.p-card[data-id="${id}"]`);
+  if (!card) return;
+  const btn = card.querySelector('.add-btn');
+  const qty = cart[id] || 0;
+  if (qty > 0) {
+    card.classList.add('in-cart');
+    btn.textContent = qty;
+    btn.setAttribute('aria-label', `${qty} na sacola`);
+  } else {
+    card.classList.remove('in-cart');
+    btn.textContent = '+';
+    btn.setAttribute('aria-label', 'Adicionar à sacola');
+  }
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateBadge();
+  updateCard(id);
+  renderCart();
+  toast('Adicionado à sacola! 🌸');
+}
+
+function changeQty(id, delta) {
+  const newVal = Math.max(0, (cart[id]||0) + delta);
+  if (newVal === 0) delete cart[id]; else cart[id] = newVal;
+  updateBadge();
+  updateCard(id);
+  renderCart();
+}
+
+// ── Toast ──
+let toastTimer;
+function toast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ── Cart open/close ──
+function openCart() {
+  $('cartDrawer').classList.add('open');
+  $('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  $('cartDrawer').classList.remove('open');
+  $('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Checkout ──
+function checkout() {
+  const items = products.filter(p => cart[p.id] > 0);
+  if (!items.length) return;
+  const lines = items.map(p => `• ${cart[p.id]}x ${p.name} — ${brl(cart[p.id]*p.price)}`).join('\n');
+  const msg = `*Olá! Gostaria de fazer um pedido* 🌸\n\n${lines}\n\n────────────\n*Total: ${brl(getTotal())}*\n\nAguardo confirmação e endereço de entrega! 😊`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+}
+
+// ── Render products ──
+function renderProducts(cat) {
+  const grid = $('productGrid');
+  const list = cat === 'todos' ? products : products.filter(p => p.cat === cat);
+  grid.innerHTML = list.map(p => {
+    const qty = cart[p.id] || 0;
+    const thumb = p.img
+      ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+      : p.emoji;
+    const style = p.img ? '' : ` style="background:linear-gradient(135deg,${p.bg[0]},${p.bg[1]})"`;
+    return `<article class="p-card${qty>0?' in-cart':''}" data-id="${p.id}" role="listitem">
+      <div class="p-img"${style}>${thumb}</div>
+      <div class="p-body">
+        <div class="p-name">${p.name}</div>
+        <div class="p-desc">${p.desc}</div>
+        <div class="p-foot">
+          <span class="p-price">${brl(p.price)}</span>
+          <button class="add-btn" data-id="${p.id}" aria-label="${qty>0?qty+' na sacola':'Adicionar à sacola'}">${qty>0?qty:'+'}</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+// ── WhatsApp links ──
+function setupWaLinks() {
+  const url = `https://wa.me/${WA_NUMBER}`;
+  document.querySelectorAll('.js-wa-link').forEach(el => {
+    el.href = url;
+    el.target = '_blank';
+    el.rel = 'noopener noreferrer';
+  });
+  // Also update the FAB
+  const fab = document.querySelector('.fab-wa');
+  if (fab) { fab.href = url; fab.target = '_blank'; fab.rel = 'noopener noreferrer'; }
+  // Display number in footer
+  const display = $('waNumberDisplay');
+  if (display && WA_NUMBER.length >= 11) {
+    const n = WA_NUMBER.replace(/^\d{2}/, '').replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+      || WA_NUMBER.slice(2);
+    display.textContent = n;
+  }
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts('todos');
+  renderCart();
+  setupWaLinks();
+
+  $('cartToggle').addEventListener('click', openCart);
+  $('cartClose').addEventListener('click', closeCart);
+  $('cartOverlay').addEventListener('click', closeCart);
+  $('checkoutBtn').addEventListener('click', checkout);
+
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.cat === 'personalizado') {
+        const msg = 'Olá! Gostaria de montar um buquê personalizado 🌸 Pode me ajudar?';
+        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        return;
+      }
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(btn.dataset.cat);
+    });
+  });
+
+  $('productGrid').addEventListener('click', e => {
+    const btn = e.target.closest('.add-btn');
+    if (btn) addToCart(parseInt(btn.dataset.id));
+  });
+
+  $('cartBody').addEventListener('click', e => {
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+    changeQty(parseInt(btn.dataset.id), btn.dataset.action === 'inc' ? 1 : -1);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeCart();
+  });
+});
+</script>
+</body>
+</html>
